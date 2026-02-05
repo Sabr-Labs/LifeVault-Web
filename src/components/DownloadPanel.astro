@@ -302,47 +302,84 @@ if (manifest) {
   </div>
 </section>
 
-<!-- Client-side OS detection and highlighting -->
+<!-- Client-side OS detection and reordering -->
 <script>
   type OSType = 'windows' | 'macos' | 'linux' | 'unknown';
 
+  /**
+   * Detect the visitor's operating system from user agent
+   * Maps common user agent patterns to our OS types
+   */
   function detectOS(): OSType {
     if (typeof navigator === 'undefined') return 'unknown';
     
     const userAgent = navigator.userAgent.toLowerCase();
     
+    // Check for Windows
     if (userAgent.includes('win')) return 'windows';
+    // Check for macOS (includes Mac, iPhone, iPad)
     if (userAgent.includes('mac')) return 'macos';
-    if (userAgent.includes('linux') || userAgent.includes('x11')) return 'linux';
+    // Check for Linux (but exclude Android)
+    if ((userAgent.includes('linux') || userAgent.includes('x11')) && !userAgent.includes('android')) {
+      return 'linux';
+    }
     
     return 'unknown';
   }
 
-  function highlightPlatform() {
+  /**
+   * Reorder download sections to prioritize the detected OS
+   * Progressive enhancement: without JS, default order is maintained
+   */
+  function reorderPlatforms() {
     const detectedOS = detectOS();
     
+    // If OS is unknown, keep default order
     if (detectedOS === 'unknown') return;
     
-    // Find the matching section
-    const section = document.querySelector(`[data-os="${detectedOS}"]`);
-    if (!section) return;
+    const container = document.getElementById('download-panel');
+    if (!container) return;
     
-    // Show the "Recommended for you" badge
-    const badge = section.querySelector('.recommended-badge');
+    // Find all download sections
+    const sections = Array.from(container.querySelectorAll('.download-section')) as HTMLElement[];
+    if (sections.length === 0) return;
+    
+    // Find the section matching the detected OS
+    const detectedSection = sections.find(section => section.dataset.os === detectedOS);
+    
+    // If detected OS section doesn't exist or has no downloads, keep default order
+    if (!detectedSection) return;
+    
+    // Show the "Recommended for you" badge on the detected OS
+    const badge = detectedSection.querySelector('.recommended-badge');
     if (badge) {
       badge.classList.remove('hidden');
     }
     
-    // Scroll to the recommended section (optional, subtle)
-    // Commenting out auto-scroll to avoid disrupting user experience
-    // section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    // Define the default order for remaining platforms
+    const defaultOrder: OSType[] = ['windows', 'macos', 'linux'];
+    
+    // Create new order: detected OS first, then others in default order
+    const newOrder = [
+      detectedOS,
+      ...defaultOrder.filter(os => os !== detectedOS)
+    ];
+    
+    // Reorder sections in the DOM to match visual order (accessibility requirement)
+    // This ensures screen readers and keyboard navigation follow the visual priority
+    newOrder.forEach((os) => {
+      const section = sections.find(s => s.dataset.os === os);
+      if (section) {
+        container.appendChild(section);
+      }
+    });
   }
 
-  // Run on page load
+  // Run on page load - hydration-safe (only runs client-side)
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', highlightPlatform);
+    document.addEventListener('DOMContentLoaded', reorderPlatforms);
   } else {
-    highlightPlatform();
+    reorderPlatforms();
   }
 </script>
 
