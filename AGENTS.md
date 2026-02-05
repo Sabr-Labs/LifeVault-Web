@@ -299,6 +299,12 @@ npm run astro -- --help  # Get Astro CLI help
    - Maintain type safety
    - Test across themes and devices
 
+8. **Documentation**
+   - Do NOT create separate documentation files (e.g., IMPLEMENTATION.md, SUMMARY.md)
+   - Update README.md only when necessary for user-facing instructions
+   - Keep implementation details in code comments
+   - Let the code be self-documenting
+
 ### Code Style Guidelines
 
 **React Components**:
