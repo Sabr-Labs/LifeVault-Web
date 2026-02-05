@@ -36,7 +36,7 @@ export default function Navbar() {
       <div className="container mx-auto px-4">
         <div className="flex-1">
           <a href="/" className="flex items-center gap-2 text-xl font-bold text-primary">
-            <img src="/logo_transparent256.png" alt="LifeVault Logo" className="w-8 h-8" />
+            <img src="/logo_transparent256.png" alt="LifeVault Logo" className="w-8 h-8" width="32" height="32" />
             <span>LifeVault</span>
           </a>
         </div>
