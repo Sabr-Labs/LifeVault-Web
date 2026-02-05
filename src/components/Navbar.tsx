@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Menu, X, Sun, Moon, Vault } from 'lucide-react';
+import { Menu, X, Sun, Moon } from 'lucide-react';
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -36,7 +36,7 @@ export default function Navbar() {
       <div className="container mx-auto px-4">
         <div className="flex-1">
           <a href="/" className="flex items-center gap-2 text-xl font-bold text-primary">
-            <Vault className="w-8 h-8" />
+            <img src="/logo_transparent256.png" alt="LifeVault Logo" className="w-8 h-8" />
             <span>LifeVault</span>
           </a>
         </div>
