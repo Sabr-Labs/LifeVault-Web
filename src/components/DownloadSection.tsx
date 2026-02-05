@@ -1,26 +1,29 @@
-import { Monitor, Apple, Terminal, Download } from 'lucide-react';
+import { Monitor, Apple, Terminal, Download, Clock } from 'lucide-react';
 
 const platforms = [
   {
     name: 'Windows',
     icon: Monitor,
     description: 'For Windows 10/11',
-    downloadUrl: '#',
+    downloadUrl: '',
     requirements: 'Windows 10 or later, 64-bit',
+    comingSoon: true,
   },
   {
     name: 'macOS',
     icon: Apple,
     description: 'For macOS 11+',
-    downloadUrl: '#',
+    downloadUrl: '',
     requirements: 'macOS 11 (Big Sur) or later',
+    comingSoon: true,
   },
   {
     name: 'Linux',
     icon: Terminal,
     description: 'For Ubuntu, Fedora, etc.',
-    downloadUrl: '#',
+    downloadUrl: '',
     requirements: 'Ubuntu 20.04+, Fedora 34+, or equivalent',
+    comingSoon: true,
   },
 ];
 
@@ -55,13 +58,23 @@ export default function DownloadSection() {
                 <p className="text-base-content/70">{platform.description}</p>
                 <p className="text-sm text-base-content/50 mt-2">{platform.requirements}</p>
                 <div className="card-actions mt-6">
-                  <a 
-                    href={platform.downloadUrl}
-                    className="btn btn-primary btn-lg gap-2"
-                  >
-                    <Download className="w-5 h-5" />
-                    Download
-                  </a>
+                  {platform.comingSoon ? (
+                    <button 
+                      className="btn btn-outline btn-lg gap-2 cursor-not-allowed opacity-70"
+                      disabled
+                    >
+                      <Clock className="w-5 h-5" />
+                      Coming Soon
+                    </button>
+                  ) : (
+                    <a 
+                      href={platform.downloadUrl}
+                      className="btn btn-primary btn-lg gap-2"
+                    >
+                      <Download className="w-5 h-5" />
+                      Download
+                    </a>
+                  )}
                 </div>
               </div>
             </div>
@@ -71,10 +84,10 @@ export default function DownloadSection() {
         {/* Version Info */}
         <div className="text-center mt-16">
           <div className="badge badge-outline badge-lg">
-            Latest Version: 1.0.0
+            Coming Soon
           </div>
           <p className="text-sm text-base-content/50 mt-4">
-            By downloading, you agree to our Terms of Service and Privacy Policy
+            Sign up for our newsletter to be notified when LifeVault is available.
           </p>
         </div>
       </div>

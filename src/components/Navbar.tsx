@@ -3,16 +3,14 @@ import { Menu, X, Sun, Moon, Vault } from 'lucide-react';
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
-  const [theme, setTheme] = useState<'light' | 'dark'>('light');
+  const [theme, setTheme] = useState<'light' | 'dark' | null>(null);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    // Check for saved theme or system preference
-    const savedTheme = localStorage.getItem('theme') as 'light' | 'dark' | null;
-    const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    
-    const initialTheme = savedTheme || (systemPrefersDark ? 'dark' : 'light');
-    setTheme(initialTheme);
-    document.documentElement.setAttribute('data-theme', initialTheme);
+    // Get the theme from the document which was set by the inline script
+    const currentTheme = document.documentElement.getAttribute('data-theme') as 'light' | 'dark';
+    setTheme(currentTheme || 'light');
+    setMounted(true);
   }, []);
 
   const toggleTheme = () => {
@@ -21,6 +19,17 @@ export default function Navbar() {
     localStorage.setItem('theme', newTheme);
     document.documentElement.setAttribute('data-theme', newTheme);
   };
+
+  // Render a placeholder button during SSR to avoid hydration mismatch
+  const themeButton = (
+    <button 
+      onClick={toggleTheme} 
+      className="btn btn-ghost btn-circle"
+      aria-label="Toggle theme"
+    >
+      {mounted && theme === 'light' ? <Moon className="w-5 h-5" /> : <Sun className="w-5 h-5" />}
+    </button>
+  );
 
   return (
     <nav className="navbar bg-base-100/80 backdrop-blur-md fixed top-0 z-50 border-b border-base-300">
@@ -38,13 +47,7 @@ export default function Navbar() {
             <li><a href="/" className="font-medium">Home</a></li>
             <li><a href="/download" className="font-medium">Download</a></li>
           </ul>
-          <button 
-            onClick={toggleTheme} 
-            className="btn btn-ghost btn-circle"
-            aria-label="Toggle theme"
-          >
-            {theme === 'light' ? <Moon className="w-5 h-5" /> : <Sun className="w-5 h-5" />}
-          </button>
+          {themeButton}
           <a href="/download" className="btn btn-primary">
             Get Started
           </a>
@@ -52,13 +55,7 @@ export default function Navbar() {
 
         {/* Mobile menu button */}
         <div className="flex md:hidden gap-2">
-          <button 
-            onClick={toggleTheme} 
-            className="btn btn-ghost btn-circle"
-            aria-label="Toggle theme"
-          >
-            {theme === 'light' ? <Moon className="w-5 h-5" /> : <Sun className="w-5 h-5" />}
-          </button>
+          {themeButton}
           <button
             onClick={() => setIsOpen(!isOpen)}
             className="btn btn-ghost btn-circle"
