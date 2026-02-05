@@ -1,4 +1,4 @@
-import { Vault, Github, Twitter } from 'lucide-react';
+import { Github, Twitter } from 'lucide-react';
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
@@ -10,7 +10,7 @@ export default function Footer() {
           {/* Logo and Description */}
           <div className="flex flex-col items-center md:items-start gap-4">
             <a href="/" className="flex items-center gap-2 text-xl font-bold text-primary">
-              <Vault className="w-8 h-8" />
+              <img src="/logo_transparent256.png" alt="LifeVault Logo" className="w-8 h-8" width="32" height="32" />
               <span>LifeVault</span>
             </a>
             <p className="text-base-content/60 text-sm text-center md:text-left max-w-xs">
