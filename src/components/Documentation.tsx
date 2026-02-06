@@ -711,7 +711,7 @@ export default function Documentation({ currentSlug = 'introduction' }: DocsProp
       {/* Mobile sidebar toggle */}
       <button
         onClick={() => setSidebarOpen(!sidebarOpen)}
-        className="lg:hidden fixed top-20 left-4 z-50 p-2 rounded-lg bg-base-200 border border-base-300 text-base-content/70 hover:bg-base-300 transition-colors"
+        className="lg:hidden fixed bottom-6 right-6 z-50 p-3 rounded-full bg-primary text-primary-content shadow-lg hover:bg-primary/90 transition-colors"
         aria-label="Toggle documentation sidebar"
       >
         {sidebarOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
