@@ -96,6 +96,7 @@ export default function AppShowcase() {
                       src={step.screenshot}
                       alt={step.alt}
                       className="rounded-lg shadow-lg w-full"
+                      loading="lazy"
                     />
                   </figure>
                 </div>
