@@ -5,13 +5,25 @@ export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [theme, setTheme] = useState<'light' | 'dark' | null>(null);
   const [mounted, setMounted] = useState(false);
+  const [currentPath, setCurrentPath] = useState('/');
 
   useEffect(() => {
     // Get the theme from the document which was set by the inline script
     const currentTheme = document.documentElement.getAttribute('data-theme') as 'light' | 'dark';
     setTheme(currentTheme || 'light');
     setMounted(true);
+    // Get the current page path for active link highlighting
+    setCurrentPath(window.location.pathname);
   }, []);
+
+  const isActive = (path: string) => {
+    if (path === '/') {
+      return currentPath === '/';
+    }
+    // Check for exact match or path followed by '/' to avoid partial matches
+    // e.g., '/docs' should not match '/documentation'
+    return currentPath === path || currentPath.startsWith(path + '/');
+  };
 
   const toggleTheme = () => {
     const newTheme = theme === 'light' ? 'dark' : 'light';
@@ -44,10 +56,10 @@ export default function Navbar() {
         {/* Desktop Navigation */}
         <div className="hidden md:flex flex-none gap-2">
           <ul className="menu menu-horizontal px-1 gap-1">
-            <li><a href="/" className="font-medium">Home</a></li>
-            <li><a href="/download" className="font-medium">Download</a></li>
-            <li><a href="/docs" className="font-medium">Docs</a></li>
-            <li><a href="/faq" className="font-medium">FAQ</a></li>
+            <li><a href="/" className={`font-medium ${isActive('/') ? 'active text-primary' : ''}`}>Home</a></li>
+            <li><a href="/download" className={`font-medium ${isActive('/download') ? 'active text-primary' : ''}`}>Download</a></li>
+            <li><a href="/docs" className={`font-medium ${isActive('/docs') ? 'active text-primary' : ''}`}>Docs</a></li>
+            <li><a href="/faq" className={`font-medium ${isActive('/faq') ? 'active text-primary' : ''}`}>FAQ</a></li>
           </ul>
           {themeButton}
           <a href="/download" className="btn btn-primary">
@@ -72,10 +84,10 @@ export default function Navbar() {
       {isOpen && (
         <div className="md:hidden absolute top-full left-0 right-0 bg-base-100 border-b border-base-300 shadow-lg">
           <ul className="menu p-4 gap-2">
-            <li><a href="/" className="font-medium">Home</a></li>
-            <li><a href="/download" className="font-medium">Download</a></li>
-            <li><a href="/docs" className="font-medium">Docs</a></li>
-            <li><a href="/faq" className="font-medium">FAQ</a></li>
+            <li><a href="/" className={`font-medium ${isActive('/') ? 'active text-primary' : ''}`}>Home</a></li>
+            <li><a href="/download" className={`font-medium ${isActive('/download') ? 'active text-primary' : ''}`}>Download</a></li>
+            <li><a href="/docs" className={`font-medium ${isActive('/docs') ? 'active text-primary' : ''}`}>Docs</a></li>
+            <li><a href="/faq" className={`font-medium ${isActive('/faq') ? 'active text-primary' : ''}`}>FAQ</a></li>
             <li>
               <a href="/download" className="btn btn-primary mt-2">
                 Get Started
