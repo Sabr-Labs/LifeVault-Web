@@ -1,0 +1,9 @@
+---
+import "../../styles/global.css";
+import Documentation from "../../components/Documentation";
+import Layout from "../../layouts/Layout.astro";
+---
+
+<Layout title="End-to-End Encryption - LifeVault Docs" hideFooter={true}>
+  <Documentation currentSlug="encryption" client:load />
+</Layout>

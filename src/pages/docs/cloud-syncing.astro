@@ -1,0 +1,9 @@
+---
+import "../../styles/global.css";
+import Documentation from "../../components/Documentation";
+import Layout from "../../layouts/Layout.astro";
+---
+
+<Layout title="Cloud Syncing - LifeVault Docs" hideFooter={true}>
+  <Documentation currentSlug="cloud-syncing" client:load />
+</Layout>

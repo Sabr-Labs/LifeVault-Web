@@ -1,0 +1,9 @@
+---
+import "../../styles/global.css";
+import Documentation from "../../components/Documentation";
+import Layout from "../../layouts/Layout.astro";
+---
+
+<Layout title="Vault Structure - LifeVault Docs" hideFooter={true}>
+  <Documentation currentSlug="vault-structure" client:load />
+</Layout>

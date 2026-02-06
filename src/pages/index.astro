@@ -2,10 +2,12 @@
 import "../styles/global.css";
 import Hero from "../components/Hero";
 import Features from "../components/Features";
+import AppShowcase from "../components/AppShowcase";
 import Layout from "../layouts/Layout.astro";
 ---
 
 <Layout title="LifeVault - Organize Your Digital Life">
   <Hero client:load />
   <Features client:load />
+  <AppShowcase client:load />
 </Layout>

@@ -4,9 +4,10 @@ import Footer from "../components/Footer";
 
 interface Props {
   title?: string;
+  hideFooter?: boolean;
 }
 
-const { title = "LifeVault - Organize Your Digital Life" } = Astro.props;
+const { title = "LifeVault - Organize Your Digital Life", hideFooter = false } = Astro.props;
 ---
 
 <!doctype html>
@@ -44,7 +45,7 @@ const { title = "LifeVault - Organize Your Digital Life" } = Astro.props;
     <main class="flex-1">
       <slot />
     </main>
-    <Footer client:load />
+    {!hideFooter && <Footer client:load />}
   </body>
 </html>
 
