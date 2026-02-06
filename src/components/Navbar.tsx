@@ -46,6 +46,8 @@ export default function Navbar() {
           <ul className="menu menu-horizontal px-1 gap-1">
             <li><a href="/" className="font-medium">Home</a></li>
             <li><a href="/download" className="font-medium">Download</a></li>
+            <li><a href="/docs" className="font-medium">Docs</a></li>
+            <li><a href="/faq" className="font-medium">FAQ</a></li>
           </ul>
           {themeButton}
           <a href="/download" className="btn btn-primary">
@@ -72,6 +74,8 @@ export default function Navbar() {
           <ul className="menu p-4 gap-2">
             <li><a href="/" className="font-medium">Home</a></li>
             <li><a href="/download" className="font-medium">Download</a></li>
+            <li><a href="/docs" className="font-medium">Docs</a></li>
+            <li><a href="/faq" className="font-medium">FAQ</a></li>
             <li>
               <a href="/download" className="btn btn-primary mt-2">
                 Get Started
