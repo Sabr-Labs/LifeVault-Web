@@ -694,7 +694,7 @@ export default function Documentation({ currentSlug = 'introduction' }: DocsProp
 
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  }, [page.tocItems]);
+  }, [currentSlug, page.tocItems]);
 
   useEffect(() => {
     const handleResize = () => {
