@@ -45,22 +45,23 @@ export default function Navbar() {
 
   return (
     <nav className="navbar bg-base-100/80 backdrop-blur-md fixed top-0 z-50 border-b border-base-300">
-      <div className="container mx-auto px-4">
-        <div className="flex-1">
-          <a href="/" className="flex items-center gap-2 text-xl font-bold text-primary">
-            <img src="/logo_transparent256.png" alt="LifeVault Logo" className="w-8 h-8" width="32" height="32" />
-            <span>LifeVault</span>
-          </a>
-        </div>
-        
-        {/* Desktop Navigation */}
-        <div className="hidden md:flex flex-none gap-2">
-          <ul className="menu menu-horizontal px-1 gap-1">
-            <li><a href="/" className={`font-medium ${isActive('/') ? 'active text-primary' : ''}`}>Home</a></li>
-            <li><a href="/download" className={`font-medium ${isActive('/download') ? 'active text-primary' : ''}`}>Download</a></li>
-            <li><a href="/docs" className={`font-medium ${isActive('/docs') ? 'active text-primary' : ''}`}>Docs</a></li>
-            <li><a href="/faq" className={`font-medium ${isActive('/faq') ? 'active text-primary' : ''}`}>FAQ</a></li>
-          </ul>
+      <div className="container mx-auto max-w-7xl px-4 flex items-center">
+        {/* Logo */}
+        <a href="/" className="flex items-center gap-2 text-xl font-bold text-primary">
+          <img src="/logo_transparent256.png" alt="LifeVault Logo" className="w-8 h-8" width="32" height="32" />
+          <span>LifeVault</span>
+        </a>
+
+        {/* Desktop Navigation Links */}
+        <ul className="menu menu-horizontal px-1 gap-1 hidden md:flex ml-6">
+          <li><a href="/" className={`font-medium ${isActive('/') ? 'active text-primary' : ''}`}>Home</a></li>
+          <li><a href="/download" className={`font-medium ${isActive('/download') ? 'active text-primary' : ''}`}>Download</a></li>
+          <li><a href="/docs" className={`font-medium ${isActive('/docs') ? 'active text-primary' : ''}`}>Docs</a></li>
+          <li><a href="/faq" className={`font-medium ${isActive('/faq') ? 'active text-primary' : ''}`}>FAQ</a></li>
+        </ul>
+
+        {/* Right side: Theme toggle + Get Started */}
+        <div className="hidden md:flex items-center gap-2 ml-auto">
           {themeButton}
           <a href="/download" className="btn btn-primary">
             Get Started
@@ -68,7 +69,7 @@ export default function Navbar() {
         </div>
 
         {/* Mobile menu button */}
-        <div className="flex md:hidden gap-2">
+        <div className="flex md:hidden items-center gap-2 ml-auto">
           {themeButton}
           <button
             onClick={() => setIsOpen(!isOpen)}
