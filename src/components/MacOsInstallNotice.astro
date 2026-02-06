@@ -4,66 +4,58 @@
 ---
 
 <div class="apple-platform-notice">
-  <input type="checkbox" id="show-macos-help" class="visibility-controller" />
-  
-  <label for="show-macos-help" class="question-prompt">
-    <svg class="prompt-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-      <circle cx="12" cy="12" r="10" stroke-width="2"/>
-      <path d="M12 16v-4M12 8h.01" stroke-width="2" stroke-linecap="round"/>
+  <!-- Important notice banner - always visible -->
+  <div class="important-notice-banner">
+    <svg class="alert-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+      <path d="M12 9v4m0 4h.01M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9-4.03-9-9-9z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
     </svg>
-    <span class="prompt-text">Mac refusing to launch LifeVault?</span>
-    <svg class="expand-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-      <path d="M6 9l6 6 6-6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-    </svg>
-  </label>
+    <div class="notice-content">
+      <h3 class="notice-title">⚠️ Important: First-time installation steps for all macOS users</h3>
+      <p class="notice-description">
+        macOS will block LifeVault on first launch because the app isn't Apple-notarized yet. 
+        <strong>This is normal and safe.</strong> Follow the steps below to install successfully.
+      </p>
+    </div>
+  </div>
 
-  <div class="help-content-area">
+  <!-- Installation instructions - always expanded -->
+  <div class="help-content-area expanded">
     <div class="content-wrapper">
       
-      <section class="why-blocked-section">
-        <h3 class="section-heading">What's happening?</h3>
-        <div class="explanation-blocks">
-          <p class="explanation-paragraph">
-            Apple's <strong>Gatekeeper</strong> security mechanism prevents launching apps that 
-            haven't been verified via their notarization system. Since LifeVault isn't notarized yet 
-            (a common situation for indie apps), your Mac will initially refuse to open it.
-          </p>
-          <p class="explanation-paragraph">
-            This warning is <em>expected</em> and doesn't indicate danger—just that we're an 
-            independent developer who hasn't gone through Apple's verification program yet.
-          </p>
-        </div>
-      </section>
-
-      <div class="visual-break"></div>
-
       <section class="solution-section">
-        <h3 class="section-heading">Installation process</h3>
+        <h3 class="section-heading">📋 Installation Steps (Required for All macOS Users)</h3>
         
         <div class="process-timeline">
           <div class="timeline-step">
-            <div class="step-marker marker-one">①</div>
+            <div class="step-marker marker-one">1</div>
             <div class="step-details">
-              <p class="step-text">Grab the DMG file from the download button</p>
+              <p class="step-text"><strong>Download the DMG file</strong></p>
+              <p class="step-hint">Click the "Download" button above to get LifeVault-1.0.0-darwin-universal.dmg</p>
             </div>
           </div>
 
           <div class="timeline-step">
-            <div class="step-marker marker-two">②</div>
+            <div class="step-marker marker-two">2</div>
             <div class="step-details">
-              <p class="step-text">Mount the DMG and drag LifeVault to your Applications directory</p>
+              <p class="step-text"><strong>Install the app</strong></p>
+              <p class="step-hint">Double-click the DMG file, then drag LifeVault into your Applications folder</p>
             </div>
           </div>
 
-          <div class="timeline-step">
-            <div class="step-marker marker-three">③</div>
+          <div class="timeline-step highlighted-step">
+            <div class="step-marker marker-three">3</div>
             <div class="step-details">
-              <p class="step-text">If Gatekeeper prevents launch, here's the workaround:</p>
+              <p class="step-text"><strong>Bypass Gatekeeper (REQUIRED)</strong></p>
+              <p class="step-hint">When you try to open LifeVault the first time, macOS will show an error saying 
+              "LifeVault can't be opened because Apple cannot check it for malicious software."</p>
               <div class="substeps-container">
-                <div class="substep">→ Launch Finder and navigate to Applications</div>
-                <div class="substep">→ Locate LifeVault and perform a right-click (or Ctrl+click)</div>
-                <div class="substep">→ Pick "Open" from the contextual menu</div>
-                <div class="substep">→ In the warning dialog, select "Open" once more</div>
+                <div class="substep-title">👉 Here's how to open it anyway:</div>
+                <div class="substep"><strong>a)</strong> Open <strong>Finder</strong> and go to your <strong>Applications</strong> folder</div>
+                <div class="substep"><strong>b)</strong> Find <strong>LifeVault</strong> in the list</div>
+                <div class="substep"><strong>c)</strong> <strong>Right-click</strong> (or Control-click) on LifeVault</div>
+                <div class="substep"><strong>d)</strong> Select <strong>"Open"</strong> from the menu that appears</div>
+                <div class="substep"><strong>e)</strong> In the new dialog, click <strong>"Open"</strong> again to confirm</div>
+                <div class="substep success-note">✅ LifeVault will now launch! You won't need to do this again.</div>
               </div>
             </div>
           </div>
@@ -71,39 +63,45 @@
           <div class="timeline-step">
             <div class="step-marker marker-complete">✓</div>
             <div class="step-details">
-              <p class="step-text"><strong>All set!</strong> This workaround is only needed on first launch.</p>
+              <p class="step-text"><strong>You're all set!</strong></p>
+              <p class="step-hint">LifeVault will open normally from now on. Just double-click it like any other app.</p>
             </div>
           </div>
         </div>
+      </section>
+
+      <section class="why-section">
+        <details class="why-details">
+          <summary class="why-summary">❓ Why does macOS block the app?</summary>
+          <div class="why-content">
+            <p class="explanation-paragraph">
+              Apple's <strong>Gatekeeper</strong> security system blocks apps that haven't been "notarized" 
+              through Apple's developer verification program. LifeVault is an independent app and isn't 
+              notarized yet (this is common for indie software).
+            </p>
+            <p class="explanation-paragraph">
+              <strong>This warning doesn't mean the app is unsafe</strong>—it just means we're an independent 
+              developer who hasn't completed Apple's verification process. We're working on getting notarized, 
+              and once that's done, these extra steps won't be necessary.
+            </p>
+          </div>
+        </details>
       </section>
 
       <section class="cli-alternative-section">
-        <input type="checkbox" id="reveal-cli" class="cli-toggle" />
-        <label for="reveal-cli" class="cli-label">
-          <span class="disclosure-marker">►</span>
-          <span class="cli-label-text">Command-line approach (for developers)</span>
-        </label>
-        
-        <div class="cli-content">
-          <div class="cli-block">
-            <p class="cli-intro">Terminal users can strip the quarantine attribute:</p>
-            <div class="command-display">
-              <code class="shell-command">xattr -cr /Applications/LifeVault.app</code>
+        <details class="cli-details">
+          <summary class="cli-summary">🖥️ Alternative: Command-line method (advanced users)</summary>
+          <div class="cli-content">
+            <div class="cli-block">
+              <p class="cli-intro">If you're comfortable with Terminal, you can remove the quarantine flag instead:</p>
+              <div class="command-display">
+                <code class="shell-command">xattr -cr /Applications/LifeVault.app</code>
+              </div>
+              <p class="cli-note">💡 Most users should use the right-click method described above.</p>
             </div>
-            <p class="cli-note">We suggest the GUI method for most people.</p>
           </div>
-        </div>
+        </details>
       </section>
-
-      <aside class="status-banner">
-        <svg class="banner-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-          <circle cx="12" cy="12" r="10" stroke-width="2"/>
-          <path d="M12 16v-4M12 8h.01" stroke-width="2" stroke-linecap="round"/>
-        </svg>
-        <p class="banner-message">
-          Notarization is planned. When completed, these instructions become obsolete.
-        </p>
-      </aside>
 
     </div>
   </div>
@@ -114,119 +112,97 @@
     margin-block: 1.5rem;
   }
 
-  .visibility-controller {
-    position: absolute;
-    opacity: 0;
-    pointer-events: none;
-  }
-
-  .question-prompt {
+  /* Important notice banner - always visible */
+  .important-notice-banner {
     display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    padding: 1rem 1.25rem;
-    background: linear-gradient(135deg, hsl(var(--in) / 0.06), hsl(var(--in) / 0.02));
-    border: 1.5px solid hsl(var(--in) / 0.2);
-    border-radius: 0.625rem;
-    cursor: pointer;
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    gap: 1rem;
+    padding: 1.25rem 1.5rem;
+    background: linear-gradient(135deg, hsl(var(--wa) / 0.12), hsl(var(--wa) / 0.06));
+    border: 2px solid hsl(var(--wa) / 0.4);
+    border-radius: 0.75rem;
+    margin-bottom: 1rem;
   }
 
-  .question-prompt:hover {
-    border-color: hsl(var(--in) / 0.4);
-    background: linear-gradient(135deg, hsl(var(--in) / 0.1), hsl(var(--in) / 0.04));
-  }
-
-  .prompt-icon {
-    width: 1.25rem;
-    height: 1.25rem;
+  .alert-icon {
+    width: 1.75rem;
+    height: 1.75rem;
     flex-shrink: 0;
-    stroke: hsl(var(--in));
+    stroke: hsl(var(--wa));
+    stroke-width: 2;
   }
 
-  .prompt-text {
+  .notice-content {
     flex: 1;
+  }
+
+  .notice-title {
+    font-size: 1.0625rem;
+    font-weight: 700;
+    color: hsl(var(--bc));
+    margin-bottom: 0.5rem;
+    line-height: 1.4;
+  }
+
+  .notice-description {
     font-size: 0.9375rem;
-    font-weight: 500;
+    color: hsl(var(--bc) / 0.85);
+    line-height: 1.6;
   }
 
-  .expand-arrow {
-    width: 1.25rem;
-    height: 1.25rem;
-    flex-shrink: 0;
-    stroke: currentColor;
-    transition: transform 0.25s ease;
-  }
-
-  .visibility-controller:checked ~ .question-prompt .expand-arrow {
-    transform: rotate(180deg);
-  }
-
+  /* Content area - always expanded */
   .help-content-area {
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.4s ease-out;
-  }
-
-  .visibility-controller:checked ~ .help-content-area {
-    max-height: 2000px;
+    display: block;
   }
 
   .content-wrapper {
     padding: 1.75rem 1.5rem;
     background: hsl(var(--b1));
-    border: 1.5px solid hsl(var(--bc) / 0.1);
-    border-top: none;
-    border-radius: 0 0 0.625rem 0.625rem;
+    border: 2px solid hsl(var(--bc) / 0.15);
+    border-radius: 0.75rem;
   }
 
   .section-heading {
-    font-size: 0.9375rem;
-    font-weight: 600;
-    margin-bottom: 0.875rem;
+    font-size: 1.0625rem;
+    font-weight: 700;
+    margin-bottom: 1.25rem;
     color: hsl(var(--bc));
   }
 
-  .explanation-blocks {
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
-  }
-
-  .explanation-paragraph {
-    font-size: 0.875rem;
-    line-height: 1.6;
-    color: hsl(var(--bc) / 0.8);
-  }
-
-  .visual-break {
-    height: 1px;
-    background: linear-gradient(90deg, transparent, hsl(var(--bc) / 0.15), transparent);
-    margin: 1.5rem 0;
-  }
-
+  /* Installation process timeline */
   .process-timeline {
     display: flex;
     flex-direction: column;
-    gap: 1.25rem;
+    gap: 1.5rem;
   }
 
   .timeline-step {
     display: flex;
-    gap: 1rem;
+    gap: 1.25rem;
     align-items: flex-start;
   }
 
+  .highlighted-step {
+    padding: 1.25rem;
+    background: hsl(var(--p) / 0.06);
+    border: 2px solid hsl(var(--p) / 0.2);
+    border-radius: 0.625rem;
+    margin-left: -1.25rem;
+    margin-right: -1.25rem;
+    padding-left: 2.5rem;
+    padding-right: 1.25rem;
+  }
+
   .step-marker {
-    width: 2rem;
-    height: 2rem;
+    width: 2.5rem;
+    height: 2.5rem;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-weight: 700;
-    font-size: 0.875rem;
+    font-weight: 800;
+    font-size: 1.0625rem;
     flex-shrink: 0;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   }
 
   .marker-one,
@@ -239,151 +215,205 @@
   .marker-complete {
     background: hsl(var(--su));
     color: hsl(var(--suc));
+    font-size: 1.25rem;
   }
 
   .step-details {
     flex: 1;
-    padding-top: 0.25rem;
+    padding-top: 0.375rem;
   }
 
   .step-text {
-    font-size: 0.875rem;
-    color: hsl(var(--bc) / 0.8);
+    font-size: 1rem;
+    color: hsl(var(--bc));
     line-height: 1.5;
+    font-weight: 600;
+    margin-bottom: 0.375rem;
+  }
+
+  .step-hint {
+    font-size: 0.875rem;
+    color: hsl(var(--bc) / 0.7);
+    line-height: 1.6;
   }
 
   .substeps-container {
-    margin-top: 0.75rem;
-    padding-left: 1rem;
-    border-left: 2px solid hsl(var(--p) / 0.25);
+    margin-top: 1rem;
+    padding: 1rem;
+    background: hsl(var(--b2) / 0.5);
+    border-left: 3px solid hsl(var(--p));
+    border-radius: 0.375rem;
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
+    gap: 0.75rem;
+  }
+
+  .substep-title {
+    font-weight: 700;
+    font-size: 0.9375rem;
+    color: hsl(var(--bc));
+    margin-bottom: 0.25rem;
   }
 
   .substep {
-    font-size: 0.8125rem;
-    color: hsl(var(--bc) / 0.7);
-    line-height: 1.5;
+    font-size: 0.9375rem;
+    color: hsl(var(--bc) / 0.8);
+    line-height: 1.6;
+    padding-left: 0.5rem;
   }
 
+  .substep strong {
+    color: hsl(var(--bc));
+    font-weight: 700;
+  }
+
+  .success-note {
+    margin-top: 0.5rem;
+    color: hsl(var(--su));
+    font-weight: 600;
+    padding: 0.75rem;
+    background: hsl(var(--su) / 0.1);
+    border-radius: 0.375rem;
+  }
+
+  /* Why section - collapsible */
+  .why-section {
+    margin-top: 2rem;
+  }
+
+  .why-details {
+    border: 1px solid hsl(var(--bc) / 0.15);
+    border-radius: 0.5rem;
+    overflow: hidden;
+  }
+
+  .why-summary {
+    padding: 1rem 1.25rem;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.9375rem;
+    color: hsl(var(--bc) / 0.8);
+    background: hsl(var(--b2) / 0.3);
+    list-style: none;
+    user-select: none;
+    transition: all 0.2s;
+  }
+
+  .why-summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .why-summary:hover {
+    background: hsl(var(--b2) / 0.5);
+    color: hsl(var(--bc));
+  }
+
+  .why-content {
+    padding: 1.25rem;
+    background: hsl(var(--b1));
+  }
+
+  .explanation-paragraph {
+    font-size: 0.875rem;
+    line-height: 1.7;
+    color: hsl(var(--bc) / 0.8);
+    margin-bottom: 0.875rem;
+  }
+
+  .explanation-paragraph:last-child {
+    margin-bottom: 0;
+  }
+
+  /* CLI section - collapsible */
   .cli-alternative-section {
     margin-top: 1.5rem;
   }
 
-  .cli-toggle {
-    position: absolute;
-    opacity: 0;
-    pointer-events: none;
+  .cli-details {
+    border: 1px solid hsl(var(--bc) / 0.15);
+    border-radius: 0.5rem;
+    overflow: hidden;
   }
 
-  .cli-label {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-size: 0.6875rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: hsl(var(--bc) / 0.55);
+  .cli-summary {
+    padding: 1rem 1.25rem;
     cursor: pointer;
-    transition: color 0.2s;
+    font-weight: 600;
+    font-size: 0.875rem;
+    color: hsl(var(--bc) / 0.7);
+    background: hsl(var(--b2) / 0.3);
+    list-style: none;
+    user-select: none;
+    transition: all 0.2s;
   }
 
-  .cli-label:hover {
-    color: hsl(var(--bc) / 0.8);
+  .cli-summary::-webkit-details-marker {
+    display: none;
   }
 
-  .disclosure-marker {
-    font-size: 0.75rem;
-    transition: transform 0.2s;
-  }
-
-  .cli-toggle:checked ~ .cli-label .disclosure-marker {
-    transform: rotate(90deg);
+  .cli-summary:hover {
+    background: hsl(var(--b2) / 0.5);
+    color: hsl(var(--bc));
   }
 
   .cli-content {
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.3s ease;
-  }
-
-  .cli-toggle:checked ~ .cli-content {
-    max-height: 500px;
+    background: hsl(var(--b1));
   }
 
   .cli-block {
-    margin-top: 0.875rem;
-    padding: 1rem;
-    background: hsl(var(--b2) / 0.5);
-    border: 1px solid hsl(var(--bc) / 0.1);
-    border-radius: 0.5rem;
+    padding: 1.25rem;
   }
 
   .cli-intro {
-    font-size: 0.8125rem;
-    color: hsl(var(--bc) / 0.7);
-    margin-bottom: 0.75rem;
+    font-size: 0.875rem;
+    color: hsl(var(--bc) / 0.75);
+    margin-bottom: 0.875rem;
   }
 
   .command-display {
     background: hsl(var(--n));
     color: hsl(var(--nc));
-    padding: 0.75rem;
-    border-radius: 0.375rem;
+    padding: 1rem;
+    border-radius: 0.5rem;
     overflow-x: auto;
+    border: 1px solid hsl(var(--bc) / 0.1);
   }
 
   .shell-command {
     font-family: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, monospace;
-    font-size: 0.8125rem;
+    font-size: 0.875rem;
     white-space: pre;
   }
 
   .cli-note {
-    font-size: 0.75rem;
-    color: hsl(var(--bc) / 0.6);
-    font-style: italic;
-    margin-top: 0.75rem;
-  }
-
-  .status-banner {
-    margin-top: 1.5rem;
-    padding: 0.875rem;
-    background: hsl(var(--in) / 0.1);
-    border: 1px solid hsl(var(--in) / 0.25);
-    border-radius: 0.5rem;
-    display: flex;
-    gap: 0.75rem;
-    align-items: flex-start;
-  }
-
-  .banner-icon {
-    width: 1.125rem;
-    height: 1.125rem;
-    flex-shrink: 0;
-    stroke: hsl(var(--in));
-    margin-top: 0.125rem;
-  }
-
-  .banner-message {
     font-size: 0.8125rem;
-    color: hsl(var(--bc) / 0.75);
-    line-height: 1.5;
+    color: hsl(var(--bc) / 0.65);
+    margin-top: 0.875rem;
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .expand-arrow,
-    .disclosure-marker,
-    .help-content-area,
-    .cli-content {
-      transition: none;
+    * {
+      transition: none !important;
     }
   }
 
-  .question-prompt:focus-within {
-    outline: 2px solid hsl(var(--p));
-    outline-offset: 2px;
+  @media (max-width: 640px) {
+    .important-notice-banner {
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .highlighted-step {
+      margin-left: -1rem;
+      margin-right: -1rem;
+      padding-left: 2rem;
+      padding-right: 1rem;
+    }
+
+    .step-marker {
+      width: 2.25rem;
+      height: 2.25rem;
+      font-size: 0.9375rem;
+    }
   }
 </style>
