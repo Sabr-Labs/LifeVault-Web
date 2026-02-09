@@ -368,3 +368,177 @@ if (manifest) {
     scroll-margin-top: 6rem;
   }
 </style>
+
+  // Client-side update check for latest version
+  async function checkForUpdates() {
+    const manifestUrl = 'https://downloads.lifevault.sabrlabs.co.uk/latest.json';
+    
+    try {
+      const response = await fetch(manifestUrl, {
+        cache: 'no-cache', // Always get fresh data
+        headers: {
+          'Accept': 'application/json',
+        }
+      });
+      
+      if (!response.ok) {
+        console.debug('Could not fetch latest release manifest');
+        return;
+      }
+      
+      const freshManifest = await response.json();
+      
+      // Get current version from the page
+      const versionBadge = document.querySelector('.badge-primary');
+      if (!versionBadge) return;
+      
+      const currentVersion = versionBadge.textContent?.replace('Latest version: ', '').trim();
+      const latestVersion = freshManifest.version;
+      
+      // If versions match, no update needed
+      if (currentVersion === latestVersion) {
+        console.debug('Page is up to date with latest version:', currentVersion);
+        return;
+      }
+      
+      console.log('New version available:', latestVersion, '(current:', currentVersion + ')');
+      
+      // Update version badge
+      versionBadge.textContent = `Latest version: ${latestVersion}`;
+      
+      // Update release date
+      const dateBadge = document.querySelector('.badge-outline');
+      if (dateBadge && freshManifest.publishedAt) {
+        const date = new Date(freshManifest.publishedAt);
+        const formatted = date.toLocaleDateString('en-US', {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric',
+        });
+        dateBadge.textContent = `Released: ${formatted}`;
+      }
+      
+      // Update download URLs
+      updateDownloadUrls(freshManifest);
+      
+      // Show subtle notification that content was updated
+      showUpdateNotification();
+      
+    } catch (error) {
+      console.debug('Error checking for updates:', error);
+    }
+  }
+  
+  function updateDownloadUrls(manifest: any) {
+    const { baseUrl, paths } = manifest;
+    
+    // Helper to build URL
+    const buildUrl = (path: string) => {
+      if (!path) return '';
+      const base = baseUrl.endsWith('/') ? baseUrl.slice(0, -1) : baseUrl;
+      const relative = path.startsWith('/') ? path.slice(1) : path;
+      return `${base}/${relative}`;
+    };
+    
+    // Update Windows downloads
+    if (paths.windows) {
+      updateSectionUrls('windows', {
+        primary: paths.windows.installerExe,
+        msi: paths.windows.msi,
+        portable: paths.windows.portableExe
+      }, buildUrl);
+    }
+    
+    // Update macOS downloads
+    if (paths.macos) {
+      updateSectionUrls('macos', {
+        primary: paths.macos.dmg,
+        zip: paths.macos.zip
+      }, buildUrl);
+    }
+    
+    // Update Linux downloads
+    if (paths.linux) {
+      updateSectionUrls('linux', {
+        primary: paths.linux.appImage,
+        deb: paths.linux.deb
+      }, buildUrl);
+    }
+  }
+  
+  function updateSectionUrls(os: string, paths: any, buildUrl: (path: string) => string) {
+    const section = document.querySelector(`[data-os="${os}"]`);
+    if (!section) return;
+    
+    // Update primary download
+    if (paths.primary) {
+      const primaryBtn = section.querySelector('.btn-primary');
+      if (primaryBtn) {
+        primaryBtn.setAttribute('href', buildUrl(paths.primary));
+      }
+    }
+    
+    // Update alternative downloads
+    const altButtons = section.querySelectorAll('.btn-outline');
+    let altIndex = 0;
+    
+    Object.keys(paths).forEach(key => {
+      if (key !== 'primary' && paths[key]) {
+        const btn = altButtons[altIndex];
+        if (btn) {
+          btn.setAttribute('href', buildUrl(paths[key]));
+          altIndex++;
+        }
+      }
+    });
+  }
+  
+  function showUpdateNotification() {
+    // Create a subtle toast notification
+    const toast = document.createElement('div');
+    toast.className = 'alert alert-success shadow-lg fixed bottom-4 right-4 w-auto max-w-sm z-50 animate-fade-in';
+    toast.innerHTML = `
+      <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+      </svg>
+      <span>Download links updated to latest version</span>
+    `;
+    
+    document.body.appendChild(toast);
+    
+    // Remove after 4 seconds
+    setTimeout(() => {
+      toast.style.opacity = '0';
+      toast.style.transition = 'opacity 0.3s ease-out';
+      setTimeout(() => toast.remove(), 300);
+    }, 4000);
+  }
+  
+  // Check for updates after platform reordering is done
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+      setTimeout(checkForUpdates, 500); // Small delay to avoid blocking initial render
+    });
+  } else {
+    setTimeout(checkForUpdates, 500);
+  }
+</script>
+
+<style>
+  .download-section {
+    scroll-margin-top: 6rem;
+  }
+  
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+      transform: translateY(1rem);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .animate-fade-in {
+    animation: fade-in 0.3s ease-out
