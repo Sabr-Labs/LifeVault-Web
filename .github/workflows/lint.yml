@@ -1,0 +1,52 @@
+name: Lint
+
+on:
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize, reopened, ready_for_review]
+
+permissions:
+  contents: read
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run TypeScript type check
+        run: npm run typecheck
+
+      - name: Run ESLint and auto-fix issues
+        run: npm run lint:fix
+
+      - name: Format code with Prettier
+        run: npm run format
+
+      - name: Sort package.json
+        run: npm run sort:package
+
+      - name: Run tests (if configured)
+        run: npm run test --if-present
+
+      - name: Verify no uncommitted lint/format changes
+        run: |
+          if ! git diff --quiet; then
+            echo "Lint/format checks produced changes. Run checks locally and commit them."
+            git --no-pager diff
+            exit 1
+          fi

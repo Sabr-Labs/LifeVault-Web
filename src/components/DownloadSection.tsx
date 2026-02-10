@@ -1,28 +1,28 @@
-import { Monitor, Apple, Terminal, Download, Clock } from 'lucide-react';
+import { Monitor, Apple, Terminal, Download, Clock } from "lucide-react";
 
 const platforms = [
   {
-    name: 'Windows',
+    name: "Windows",
     icon: Monitor,
-    description: 'For Windows 10/11',
-    downloadUrl: '',
-    requirements: 'Windows 10 or later, 64-bit',
+    description: "For Windows 10/11",
+    downloadUrl: "",
+    requirements: "Windows 10 or later, 64-bit",
     comingSoon: true,
   },
   {
-    name: 'macOS',
+    name: "macOS",
     icon: Apple,
-    description: 'For macOS 11+',
-    downloadUrl: '',
-    requirements: 'macOS 11 (Big Sur) or later',
+    description: "For macOS 11+",
+    downloadUrl: "",
+    requirements: "macOS 11 (Big Sur) or later",
     comingSoon: true,
   },
   {
-    name: 'Linux',
+    name: "Linux",
     icon: Terminal,
-    description: 'For Ubuntu, Fedora, etc.',
-    downloadUrl: '',
-    requirements: 'Ubuntu 20.04+, Fedora 34+, or equivalent',
+    description: "For Ubuntu, Fedora, etc.",
+    downloadUrl: "",
+    requirements: "Ubuntu 20.04+, Fedora 34+, or equivalent",
     comingSoon: true,
   },
 ];
@@ -33,20 +33,20 @@ export default function DownloadSection() {
       <div className="container mx-auto px-4 py-16">
         <div className="text-center mb-16">
           <h1 className="text-4xl md:text-5xl font-bold mb-6">
-            Download{' '}
+            Download{" "}
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-violet-500">
               LifeVault
             </span>
           </h1>
           <p className="text-lg text-base-content/70 max-w-2xl mx-auto">
-            Choose your platform and start organizing your digital life today. 
+            Choose your platform and start organizing your digital life today.
             LifeVault is free to download and use.
           </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
           {platforms.map((platform, index) => (
-            <div 
+            <div
               key={index}
               className="card bg-base-100 shadow-xl border border-base-300 hover:border-primary/50 transition-all hover:shadow-2xl group"
             >
@@ -56,10 +56,12 @@ export default function DownloadSection() {
                 </div>
                 <h2 className="card-title text-2xl">{platform.name}</h2>
                 <p className="text-base-content/70">{platform.description}</p>
-                <p className="text-sm text-base-content/50 mt-2">{platform.requirements}</p>
+                <p className="text-sm text-base-content/50 mt-2">
+                  {platform.requirements}
+                </p>
                 <div className="card-actions mt-6">
                   {platform.comingSoon ? (
-                    <button 
+                    <button
                       className="btn btn-outline btn-lg gap-2 cursor-not-allowed opacity-70"
                       disabled
                     >
@@ -67,7 +69,7 @@ export default function DownloadSection() {
                       Coming Soon
                     </button>
                   ) : (
-                    <a 
+                    <a
                       href={platform.downloadUrl}
                       className="btn btn-primary btn-lg gap-2"
                     >
@@ -83,11 +85,10 @@ export default function DownloadSection() {
 
         {/* Version Info */}
         <div className="text-center mt-16">
-          <div className="badge badge-outline badge-lg">
-            Coming Soon
-          </div>
+          <div className="badge badge-outline badge-lg">Coming Soon</div>
           <p className="text-sm text-base-content/50 mt-4">
-            Sign up for our newsletter to be notified when LifeVault is available.
+            Sign up for our newsletter to be notified when LifeVault is
+            available.
           </p>
         </div>
       </div>

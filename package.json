@@ -1,12 +1,21 @@
 {
   "name": "irregular-ice",
-  "type": "module",
   "version": "0.0.1",
+  "type": "module",
   "scripts": {
-    "dev": "astro dev",
+    "astro": "astro",
     "build": "astro build",
+    "dev": "astro dev",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "lint": "eslint . --cache --ext .js,.mjs,.cjs,.ts,.tsx",
+    "lint:fix": "eslint . --cache --ext .js,.mjs,.cjs,.ts,.tsx --fix",
+    "lint:strict": "npm run lint -- --max-warnings 0",
     "preview": "astro preview",
-    "astro": "astro"
+    "sort:package": "sort-package-json",
+    "test": "echo \"No tests configured\"",
+    "typecheck": "tsc --noEmit",
+    "validate": "npm run typecheck && npm run lint:strict && npm run format:check"
   },
   "dependencies": {
     "@astrojs/react": "^4.4.2",
@@ -18,8 +27,15 @@
     "tailwindcss": "^4.1.18"
   },
   "devDependencies": {
+    "@eslint/js": "^9.39.1",
     "@types/react": "^19.2.13",
     "@types/react-dom": "^19.2.3",
-    "daisyui": "^5.5.17"
+    "daisyui": "^5.5.17",
+    "eslint": "^9.39.1",
+    "globals": "^16.5.0",
+    "prettier": "^3.8.0",
+    "sort-package-json": "^3.6.0",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.53.0"
   }
 }

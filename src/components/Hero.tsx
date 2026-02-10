@@ -1,4 +1,4 @@
-import { Shield, FolderOpen, Bell, Sparkles } from 'lucide-react';
+import { Shield, FolderOpen, Bell, Sparkles } from "lucide-react";
 
 export default function Hero() {
   return (
@@ -11,20 +11,20 @@ export default function Hero() {
               <Sparkles className="w-4 h-4" />
               File-System-First Organizer
             </div>
-            
+
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
-              Organize Your Life with{' '}
+              Organize Your Life with{" "}
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-violet-500">
                 LifeVault
               </span>
             </h1>
-            
+
             <p className="text-lg md:text-xl text-base-content/70 mb-8 max-w-2xl">
-              Turn your existing cloud and local storage into a structured vault for IDs, 
-              warranties, receipts, and important documents—complete with presets, 
-              smart naming, and reminders.
+              Turn your existing cloud and local storage into a structured vault
+              for IDs, warranties, receipts, and important documents—complete
+              with presets, smart naming, and reminders.
             </p>
-            
+
             <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
               <a href="/download" className="btn btn-primary btn-lg gap-2">
                 <FolderOpen className="w-5 h-5" />
@@ -34,7 +34,7 @@ export default function Hero() {
                 Learn More
               </a>
             </div>
-            
+
             {/* Trust Indicators */}
             <div className="flex items-center gap-6 mt-8 justify-center lg:justify-start text-base-content/60">
               <div className="flex items-center gap-2">
@@ -47,13 +47,13 @@ export default function Hero() {
               </div>
             </div>
           </div>
-          
+
           {/* Right Content - App Preview Placeholder */}
           <div className="flex-1 w-full max-w-lg">
             <div className="relative">
               {/* Glow Effect */}
               <div className="absolute inset-0 bg-gradient-to-r from-purple-500 to-violet-500 rounded-3xl blur-3xl opacity-20"></div>
-              
+
               {/* App Preview Card */}
               <div className="relative bg-base-200 rounded-3xl p-8 border border-base-300 shadow-2xl">
                 <div className="flex items-center gap-3 mb-6">
@@ -61,7 +61,7 @@ export default function Hero() {
                   <div className="w-3 h-3 rounded-full bg-yellow-400"></div>
                   <div className="w-3 h-3 rounded-full bg-green-400"></div>
                 </div>
-                
+
                 {/* Placeholder File Structure */}
                 <div className="space-y-3">
                   <div className="flex items-center gap-3 p-3 bg-base-100 rounded-lg">

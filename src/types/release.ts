@@ -25,7 +25,7 @@ export interface ReleaseManifest {
   };
 }
 
-export type OSType = 'windows' | 'macos' | 'linux' | 'unknown';
+export type OSType = "windows" | "macos" | "linux" | "unknown";
 
 export interface DownloadOption {
   label: string;

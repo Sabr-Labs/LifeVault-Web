@@ -44,31 +44,37 @@ c:\Repos\LifeVault-Web/
 ## Key Features
 
 ### 1. Smart Organization
+
 - Automatically structures files with intelligent presets
 - Supports IDs, warranties, receipts, and more
 - File-system-first approach
 
 ### 2. Expiry Reminders
+
 - Smart notification system for warranty expirations
 - Document renewal reminders
 - Proactive document management
 
 ### 3. Cloud Integration
+
 - Works with existing cloud storage providers
 - Supports local folders
 - No vendor lock-in
 
 ### 4. Privacy-First
+
 - 100% private - files stay on user devices
 - No third-party uploads required
 - Complete data ownership
 
 ### 5. Smart Naming
+
 - Consistent file naming conventions
 - Easy document discovery
 - Structured organization system
 
 ### 6. Performance
+
 - Fast and lightweight
 - Quick launch times
 - Low resource usage
@@ -76,9 +82,11 @@ c:\Repos\LifeVault-Web/
 ## Components Documentation
 
 ### Hero.tsx
+
 **Purpose**: Landing page hero section with call-to-action
 
 **Key Elements**:
+
 - Gradient background with purple/violet theme
 - Product tagline and description
 - Primary CTA button (Download Now)
@@ -89,9 +97,11 @@ c:\Repos\LifeVault-Web/
 **Icons Used**: Shield, FolderOpen, Bell, Sparkles
 
 ### Features.tsx
+
 **Purpose**: Display product features in a grid layout
 
 **Features Array**:
+
 1. Smart Organization (FolderTree icon)
 2. Expiry Reminders (Bell icon)
 3. Works Everywhere (Cloud icon)
@@ -102,9 +112,11 @@ c:\Repos\LifeVault-Web/
 **Layout**: Responsive grid (1 column mobile, 2 tablet, 3 desktop)
 
 ### DownloadSection.tsx
+
 **Purpose**: Platform-specific download options
 
 **Platforms Supported**:
+
 - Windows (Windows 10/11, 64-bit)
 - macOS (macOS 11+ Big Sur or later)
 - Linux (Ubuntu 20.04+, Fedora 34+)
@@ -114,24 +126,29 @@ c:\Repos\LifeVault-Web/
 **Design**: Card-based layout with platform icons and requirements
 
 ### Navbar.tsx
+
 **Purpose**: Site navigation and theme switching
 
 **Features**:
+
 - Responsive design (desktop/mobile views)
 - Theme toggle (light/dark mode with localStorage persistence)
 - Logo and branding
 - Navigation links (Home, Download)
 - Mobile hamburger menu
 
-**Theme Implementation**: 
+**Theme Implementation**:
+
 - Syncs with system preferences
 - Persists user choice in localStorage
 - Prevents flash of wrong theme on load
 
 ### Footer.tsx
+
 **Purpose**: Site footer with links and information
 
 **Sections**:
+
 - Logo and description
 - Product links (Home, Download)
 - Support links (Documentation, Contact - currently placeholders)
@@ -139,9 +156,11 @@ c:\Repos\LifeVault-Web/
 - Copyright notice
 
 ### Layout.astro
+
 **Purpose**: Main page layout wrapper
 
 **Features**:
+
 - SEO meta tags
 - Favicon configuration
 - Theme initialization script (prevents FOUC)
@@ -151,18 +170,22 @@ c:\Repos\LifeVault-Web/
 ## Pages Documentation
 
 ### index.astro
+
 **Route**: `/`
 
 **Components**:
+
 - Hero (client:load)
 - Features (client:load)
 
 **Purpose**: Main landing page
 
 ### download.astro
+
 **Route**: `/download`
 
 **Components**:
+
 - DownloadSection (client:load)
 
 **Purpose**: Platform-specific download page
@@ -170,17 +193,20 @@ c:\Repos\LifeVault-Web/
 ## Styling & Theme
 
 ### Color Scheme
+
 - **Primary**: Purple to violet gradient (#9333EA to #7C3AED range)
 - **Base**: Uses DaisyUI base-100/200/300 tokens
 - **Accent**: Purple/violet throughout
 
 ### Design System
+
 - **Components**: DaisyUI component library
 - **Utilities**: Tailwind CSS
 - **Typography**: System fonts, responsive sizing
 - **Spacing**: Consistent padding/margin system
 
 ### Theme Support
+
 - Light and dark modes
 - Automatic system preference detection
 - Manual toggle with persistence
@@ -199,12 +225,29 @@ npm run astro ...        # Run Astro CLI commands
 npm run astro -- --help  # Get Astro CLI help
 ```
 
+### Mandatory Checks (Required Before Marking Work Complete)
+
+Agents MUST run these commands after code changes and before considering work complete:
+
+```bash
+npm run typecheck
+npm run lint:fix
+npm run format
+npm run sort:package
+npm run test --if-present
+```
+
+Agents MUST ensure the working tree is clean after running the checks (`git diff --quiet`).
+Agents MUST use repository scripts from `package.json` and MUST NOT invent ad-hoc verification commands.
+
 ### Development Server
+
 - Default port: 4321
 - Hot reload enabled
 - TypeScript checking
 
 ### Build Process
+
 - Output directory: `./dist/`
 - Static site generation
 - Optimized assets
@@ -212,15 +255,18 @@ npm run astro -- --help  # Get Astro CLI help
 ## Content Strategy
 
 ### Value Proposition
+
 "Turn your existing cloud and local storage into a structured vault for IDs, warranties, receipts, and important documents—complete with presets, smart naming, and reminders."
 
 ### Target Audience
+
 - Individuals seeking digital organization
 - Users with multiple cloud storage providers
 - Privacy-conscious consumers
 - Document-heavy professionals
 
 ### Key Messaging
+
 1. **File-System-First**: Works with existing storage
 2. **Privacy**: 100% private, no third-party uploads
 3. **Smart**: Automated organization and reminders
@@ -229,6 +275,7 @@ npm run astro -- --help  # Get Astro CLI help
 ## Future Enhancements
 
 ### Planned Features (Based on "Coming Soon" Status)
+
 - Windows desktop application
 - macOS desktop application
 - Linux desktop application
@@ -241,13 +288,16 @@ npm run astro -- --help  # Get Astro CLI help
 ## SEO & Marketing
 
 ### Current Meta Description
+
 "LifeVault - A file-system-first organizer that turns your existing cloud/local storage into a structured vault for IDs, warranties, receipts, and important documents."
 
 ### Domain
+
 - Primary: lifevault.sabrlabs.com
 - Organization: Sabr Labs
 
 ### Branding
+
 - Logo: logo_transparent256.png (256x256)
 - Favicon: Available in SVG and ICO formats
 - Color identity: Purple/violet gradient theme
@@ -308,6 +358,7 @@ npm run astro -- --help  # Get Astro CLI help
 ### Code Style Guidelines
 
 **React Components**:
+
 ```tsx
 // Use functional components with TypeScript
 export default function ComponentName() {
@@ -318,12 +369,14 @@ export default function ComponentName() {
 ```
 
 **Styling**:
+
 - Use Tailwind utility classes
 - Leverage DaisyUI components
 - Apply responsive modifiers (sm:, md:, lg:)
 - Use theme tokens for colors
 
 **Astro Pages**:
+
 ```astro
 ---
 // Imports and frontmatter
@@ -336,6 +389,7 @@ import Layout from "../layouts/Layout.astro";
 ```
 
 ### Testing Considerations
+
 - Test theme switching
 - Verify responsive layouts
 - Check mobile menu functionality
@@ -346,15 +400,17 @@ import Layout from "../layouts/Layout.astro";
 ## Support & Maintenance
 
 ### Repository Information
+
 - Owner: Sabr-Labs
 - Project: LifeVault-Web
 - Primary branch: main
 
 ### Contact
+
 - Organization: Sabr Labs
 - Website: lifevault.sabrlabs.com
 
 ---
 
-*Last Updated: February 5, 2026*
-*Documentation Version: 1.0*
+_Last Updated: February 5, 2026_
+_Documentation Version: 1.0_
