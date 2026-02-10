@@ -18,6 +18,9 @@ pnpm-debug.log*
 .env
 .env.production
 
+# mock data for testing
+public/mock-releases.json
+
 # macOS-specific files
 .DS_Store
 

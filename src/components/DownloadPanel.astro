@@ -1,6 +1,7 @@
 ---
 import type { ReleaseManifest, PlatformDownloads } from '../types/release';
 import { fetchReleaseManifest, parseDownloads, formatReleaseDate } from '../utils/release';
+import MacOsInstallNotice from './MacOsInstallNotice.astro';
 
 // Fetch release data at build time
 const manifestUrl = import.meta.env.PUBLIC_RELEASES_MANIFEST_URL;
@@ -223,6 +224,11 @@ try {
               </div>
             </div>
           )}
+          
+          <!-- macOS-specific Gatekeeper help (only shown to macOS users via client-side detection) -->
+          <div class="macos-only-notice" style="display: none;">
+            <MacOsInstallNotice />
+          </div>
         </div>
 
         <!-- Linux -->
@@ -336,6 +342,14 @@ try {
    */
   function reorderPlatforms() {
     const detectedOS = detectOS();
+    
+    // Show macOS-specific help notice only for macOS users
+    if (detectedOS === 'macos') {
+      const macNotice = document.querySelector('.macos-only-notice') as HTMLElement;
+      if (macNotice) {
+        macNotice.style.display = 'block';
+      }
+    }
     
     // If OS is unknown, keep default order
     if (detectedOS === 'unknown') return;
