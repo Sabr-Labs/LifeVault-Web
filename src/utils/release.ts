@@ -1,5 +1,6 @@
 import type {
   ReleaseManifest,
+  OSType,
   DownloadOption,
   PlatformDownloads,
 } from "../types/release";
@@ -28,7 +29,7 @@ export async function fetchReleaseManifest(
     manifestUrl || "https://downloads.lifevault.sabrlabs.co.uk/latest.json";
 
   try {
-    const response = await fetch(url);
+    const response = await fetch(url, { cache: "no-cache" });
 
     if (!response.ok) {
       console.warn(
@@ -179,5 +180,43 @@ export function formatReleaseDate(dateString: string): string {
     });
   } catch {
     return dateString;
+  }
+}
+
+/**
+ * Detect the visitor's operating system from user agent
+ */
+export function detectOS(): OSType {
+  if (typeof navigator === "undefined") return "unknown";
+
+  const ua = navigator.userAgent.toLowerCase();
+  if (ua.includes("win")) return "windows";
+  if (ua.includes("mac")) return "macos";
+  if ((ua.includes("linux") || ua.includes("x11")) && !ua.includes("android"))
+    return "linux";
+
+  return "unknown";
+}
+
+/**
+ * Fetch the full versions list from R2
+ * Returns an empty array on failure so the UI still works with just latest.json
+ */
+export async function fetchVersions(
+  versionsUrl: string,
+): Promise<ReleaseManifest[]> {
+  try {
+    const response = await fetch(versionsUrl, { cache: "no-cache" });
+    if (!response.ok) return [];
+
+    const data = await response.json();
+    const list = Array.isArray(data?.versions) ? data.versions : [];
+
+    // Basic validation: keep only entries with the required fields
+    return list.filter(
+      (v: Record<string, unknown>) => v.version && v.baseUrl && v.paths,
+    ) as ReleaseManifest[];
+  } catch {
+    return [];
   }
 }

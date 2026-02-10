@@ -1,6 +1,6 @@
 /**
  * Release manifest type definitions
- * Fetched from Cloudflare R2 at build time
+ * Fetched from Cloudflare R2 at runtime
  */
 
 export interface ReleaseManifest {

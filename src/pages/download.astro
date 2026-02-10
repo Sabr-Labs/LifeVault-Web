@@ -1,9 +1,22 @@
 ---
 import "../styles/global.css";
-import DownloadPanel from "../components/DownloadPanel.astro";
+import DownloadPanelClient from "../components/DownloadPanelClient";
 import Layout from "../layouts/Layout.astro";
+import { fetchReleaseManifest, fetchVersions } from "../utils/release";
+
+// Fetch at build time (server-side, no CORS restrictions).
+// The client component will attempt a runtime refresh; if CORS blocks it,
+// this build-time data is used as a fallback.
+const manifest = await fetchReleaseManifest();
+const versions = await fetchVersions(
+  "https://downloads.lifevault.sabrlabs.co.uk/versions.json",
+);
 ---
 
 <Layout title="Download LifeVault - Windows, macOS, Linux">
-  <DownloadPanel />
+  <DownloadPanelClient
+    client:load
+    initialManifest={manifest}
+    initialVersions={versions}
+  />
 </Layout>
