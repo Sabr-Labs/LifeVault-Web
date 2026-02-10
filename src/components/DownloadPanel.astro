@@ -15,6 +15,18 @@ let downloads: {
 if (manifest) {
   downloads = parseDownloads(manifest);
 }
+
+// Fetch versions list at build time (avoids CORS issues with client-side fetch)
+let versionsData: any[] = [];
+try {
+  const versionsRes = await fetch('https://downloads.lifevault.sabrlabs.co.uk/versions.json');
+  if (versionsRes.ok) {
+    const versionsJson = await versionsRes.json();
+    versionsData = Array.isArray(versionsJson?.versions) ? versionsJson.versions : [];
+  }
+} catch (e) {
+  // versions.json not available at build time - dropdown will only show current version
+}
 ---
 
 <section class="min-h-screen flex items-center pt-16 bg-gradient-to-br from-base-100 via-purple-50/20 to-base-100 dark:from-base-100 dark:via-purple-900/10 dark:to-base-100">
@@ -33,17 +45,17 @@ if (manifest) {
       
       {manifest && (
         <div class="flex flex-wrap gap-3 justify-center items-center">
-          <div class="dropdown dropdown-hover">
-            <label tabindex="0" class="badge badge-lg badge-primary cursor-pointer gap-2">
+          <details class="dropdown" id="version-dropdown-details">
+            <summary class="badge badge-lg badge-primary cursor-pointer gap-2 select-none">
               <span id="selected-version">Latest version: {manifest.version}</span>
               <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
               </svg>
-            </label>
-            <ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow-lg bg-base-100 rounded-box w-52 mt-2 border border-base-300" id="version-dropdown">
-              <li><a data-version="{manifest.version}" class="active">{manifest.version} (Latest)</a></li>
+            </summary>
+            <ul class="dropdown-content z-[1] menu p-2 shadow-lg bg-base-100 rounded-box w-52 mt-1 border border-base-300" id="version-dropdown">
+              <li><a data-version={manifest.version} class="active">{manifest.version} (Latest)</a></li>
             </ul>
-          </div>
+          </details>
           <div class="badge badge-lg badge-outline" id="release-date">
             Released: {formatReleaseDate(manifest.publishedAt)}
           </div>
@@ -290,6 +302,9 @@ if (manifest) {
   </div>
 </section>
 
+<!-- Embed versions data fetched at build time -->
+<div id="versions-data" data-versions={JSON.stringify(versionsData)} style="display:none;"></div>
+
 <!-- Client-side OS detection and reordering -->
 <script>
   type OSType = 'windows' | 'macos' | 'linux' | 'unknown';
@@ -415,31 +430,35 @@ if (manifest) {
       
       updateDownloadUrls(freshManifest);
       
-      // Fetch available versions list
-      fetchAvailableVersions(latestVersion);
-      
     } catch (error) {
       console.debug('Error checking for updates:', error);
     }
   }
   
-  async function fetchAvailableVersions(latestVersion) {
+  let availableVersionsIndex = {};
+
+  function loadAvailableVersions() {
+    const dataEl = document.getElementById('versions-data');
+    let versions: any[] = [];
     try {
-      const response = await fetch('https://downloads.lifevault.sabrlabs.co.uk/versions.json', {
-        cache: 'no-cache'
-      });
-      
-      if (!response.ok) {
-        console.debug('No versions list available');
-        return;
-      }
-      
-      const versions = await response.json();
-      populateVersionDropdown(versions, latestVersion);
-      
-    } catch (error) {
-      console.debug('Could not load versions list:', error);
+      versions = JSON.parse(dataEl?.getAttribute('data-versions') || '[]');
+    } catch (e) {
+      console.debug('Could not parse versions data');
     }
+    
+    if (versions.length === 0) {
+      console.debug('No versions data available');
+      return;
+    }
+    
+    // Determine the latest version: first entry in the array, or fall back to what's shown in the UI
+    let latestVersion = versions[0]?.version || null;
+    if (!latestVersion) {
+      const versionText = document.getElementById('selected-version');
+      latestVersion = versionText?.textContent?.replace('Latest version: ', '').replace('Version: ', '').trim() || '';
+    }
+    
+    populateVersionDropdown(versions, latestVersion);
   }
   
   function populateVersionDropdown(versions, latestVersion) {
@@ -447,18 +466,30 @@ if (manifest) {
     if (!dropdown) return;
     
     dropdown.innerHTML = '';
-    
-    versions.forEach(function(version, index) {
+
+    availableVersionsIndex = versions.reduce(function(acc, item) {
+      if (item?.version) {
+        acc[item.version] = item;
+      }
+      return acc;
+    }, {});
+
+    versions.forEach(function(item) {
+      const version = item?.version;
+      if (!version) return;
       const li = document.createElement('li');
       const a = document.createElement('a');
       a.setAttribute('data-version', version);
-      a.textContent = version + (index === 0 ? ' (Latest)' : '');
+      a.textContent = version + (version === latestVersion ? ' (Latest)' : '');
       if (version === latestVersion) {
         a.className = 'active';
       }
       
       a.addEventListener('click', function(e) {
         e.preventDefault();
+        // Close the dropdown
+        const details = document.getElementById('version-dropdown-details');
+        if (details) details.removeAttribute('open');
         switchVersion(version);
       });
       
@@ -483,25 +514,25 @@ if (manifest) {
     });
     
     try {
-      const manifestUrl = 'https://downloads.lifevault.sabrlabs.co.uk/releases/' + version + '/manifest.json';
-      const response = await fetch(manifestUrl, { cache: 'no-cache' });
-      
-      if (!response.ok) {
-        console.warn('Could not fetch manifest for version', version);
+      const versionManifest = availableVersionsIndex[version];
+      if (!versionManifest) {
+        console.warn('No version metadata available for', version);
         return;
       }
-      
-      const versionManifest = await response.json();
-      
+
       const dateBadge = document.getElementById('release-date');
-      if (dateBadge && versionManifest.publishedAt) {
-        const date = new Date(versionManifest.publishedAt);
-        const formatted = date.toLocaleDateString('en-US', {
-          year: 'numeric',
-          month: 'long',
-          day: 'numeric',
-        });
-        dateBadge.textContent = 'Released: ' + formatted;
+      if (dateBadge) {
+        if (versionManifest.publishedAt) {
+          const date = new Date(versionManifest.publishedAt);
+          const formatted = date.toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+          });
+          dateBadge.textContent = 'Released: ' + formatted;
+        } else {
+          dateBadge.textContent = 'Released: —';
+        }
       }
       
       updateDownloadUrls(versionManifest);
@@ -564,23 +595,36 @@ if (manifest) {
     const section = document.querySelector('[data-os="' + os + '"]');
     if (!section) return;
     
+    // Update primary download card
     if (paths.primary) {
-      const primaryBtn = section.querySelector('.btn-primary');
-      if (primaryBtn) {
-        primaryBtn.setAttribute('href', buildUrl(paths.primary));
+      const primaryCard = section.querySelector('.card.border-primary\\/20');
+      if (primaryCard) {
+        const primaryBtn = primaryCard.querySelector('.btn-primary');
+        if (primaryBtn) {
+          primaryBtn.setAttribute('href', buildUrl(paths.primary));
+        }
+        // Update visible file name
+        const fileNameSpan = primaryCard.querySelector('.text-xs.text-base-content\\/50');
+        if (fileNameSpan) {
+          fileNameSpan.textContent = paths.primary.split('/').pop() || paths.primary;
+        }
       }
     }
     
-    const altButtons = section.querySelectorAll('.btn-outline');
+    // Update alternative download cards
+    const altCards = section.querySelectorAll('.card.border-base-300');
     let altIndex = 0;
     
     Object.keys(paths).forEach(function(key) {
       if (key !== 'primary' && paths[key]) {
-        const btn = altButtons[altIndex];
-        if (btn) {
-          btn.setAttribute('href', buildUrl(paths[key]));
-          altIndex++;
+        const card = altCards[altIndex];
+        if (card) {
+          const btn = card.querySelector('.btn-outline');
+          if (btn) {
+            btn.setAttribute('href', buildUrl(paths[key]));
+          }
         }
+        altIndex++;
       }
     });
   }
@@ -599,12 +643,18 @@ if (manifest) {
     }, 4000);
   }
   
+  function initDownloadPanel() {
+    checkForUpdates();
+    // Versions data is embedded at build time - no fetch needed
+    loadAvailableVersions();
+  }
+
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', function() {
-      setTimeout(checkForUpdates, 500);
+      setTimeout(initDownloadPanel, 500);
     });
   } else {
-    setTimeout(checkForUpdates, 500);
+    setTimeout(initDownloadPanel, 500);
   }
 </script>
 
